@@ -9,7 +9,7 @@
   		insert into memberfile values(memberfile_seq.nextval, #{id},#{fname},#{oname})
   	</insert>
   	<!-- 한개선택 -->
-  	<select id ="getSelect" resultType="com.jh.memberFile.MemberFileDTO" parameterType="java.lang.String">
+  	<select id ="getSelect" resultType="com.jh.memberFile.MemberFileDTO" parameterType="com.jh.member.MemberDTO">
   		select * from memberfile where id=#{id}
   	</select>
   </mapper>

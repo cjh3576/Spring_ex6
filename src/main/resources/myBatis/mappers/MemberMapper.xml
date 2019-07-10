@@ -9,10 +9,39 @@
   </sql>
   
   <insert id="setWrite" parameterType="com.jh.member.MemberDTO">
-	insert into (<include refid="colums"/>)member values(#{id}, #{pw}, #{name}, #{email}, 3)  
+	insert into member values(#{id}, #{pw}, #{name}, #{email}, 3)  
   </insert>
+ <!--  <resultMap type="com.jh.member.MemberDTO" id="member">
+  	<id property="id" column="id"/>
+	<result property="pw" column="pw"/>
+	<result property="name" column="name"/>
+  	<result property="email" column="email"/>
+	<result property="grade" column="grade"/>
+	<result property="memberFileDTO.num" column="num"/>
+  	<result property="memberFileDTO.fname" column="fname"/>
+  	<result property="memberFileDTO.oname" column="oname"/>
+  </resultMap> -->
+  <resultMap type="com.jh.member.MemberDTO" id="member">
+  	<id property="id" column="id"/>
+	<result property="pw" column="pw"/>
+	<result property="name" column="name"/>
+  	<result property="email" column="email"/>
+	<result property="grade" column="grade"/>
+	<association property="memberFileDTO" resultMap="fileResult" javaType="com.jh.memberFile.MemberFileDTO">
+
+	</association>
+  </resultMap>
   
-  <select id="getSelect" resultType="com.jh.member.MemberDTO" parameterType="java.lang.String">
-  	select * from member where id=#{id} and pw=#{pw}
+  <resultMap type="com.jh.memberFile.MemberFileDTO" id="fileResult">
+  		<id property="num" column="num"/>
+  		<result property="fname" column="fname"/>
+  		<result property="oname" column="oname"/>
+  </resultMap>
+  
+  <select id="getSelect" resultMap="member" parameterType="com.jh.member.MemberDTO">
+  	select M.*, F.* 
+  	from member M inner join memberfile F
+  	on (M.id = F.id)
+  	where M.id =#{id} and M.pw = #{pw}
   </select>
   </mapper>

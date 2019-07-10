@@ -15,7 +15,8 @@
 <a href="member/memberLogin">LOGIN</a>
 </c:if>
 <c:if test="${sessionScope.dto ne null }">
-<a href="member/memberLogout">LOGOUT</a>
+<a href="member/memberLogout">LogOut</a>
+<a href="member/memberPage">MyPage</a>
 </c:if>
 </body>
 </html>

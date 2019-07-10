@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,7 @@
 			<th>Title</th>
 			<th>Writer</th>
 			<th>Contents</th>
+			<th>File</th>
 			</tr>
 		</thead>
 			<tbody>
@@ -26,6 +28,9 @@
 			 	<td>${dto.title }</td>
 			 	<td>${dto.writer}</td>
 				<td>${dto.contents }</td>
+				<c:forEach items="${dto.files }" var="file">
+				<td><a href="../resources/upload/${file.fname}">${file.oname }</a></td>
+				</c:forEach>
 			</tr>
 			</tbody>
 	</table>

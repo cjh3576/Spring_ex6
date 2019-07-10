@@ -1,20 +1,14 @@
 package com.jh.board.notice;
 
-import static org.junit.Assert.*;
 
-import java.util.List;
 
 import javax.inject.Inject;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.jh.board.BoardDTO;
 import com.jh.s6.AbstractTest;
-import com.jh.util.PageMaker;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
@@ -89,11 +83,6 @@ public class NoticeDAOTest extends AbstractTest{
 //		int result = noticeDAOImpl.getTotalCount(pageMaker);
 //		assertEquals(1, result);
 //	}
-	@Test
-	public void getNum() throws Exception{
-		int num = noticeDAOImpl.getNum();
-		assertNotEquals(0,num);
-	}
 	
 
 }

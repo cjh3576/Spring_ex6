@@ -6,7 +6,15 @@
   <mapper namespace="FileMapper">
   <!--등록  -->
   <insert id="setWrite" parameterType="com.jh.file.FileDTO">
-  	insert into files values(notice_seq.nextval,#{num},#{fname},#{oname})
+  	<selectKey keyProperty="id" resultType="java.lang.Integer" order="BEFORE">
+  		select notice_seq.nextval as id from dual
+  	</selectKey>
+	Insert All  
+  	<foreach collection="list" item="item" index="i" separator=" ">
+  		into Files
+  		values (notice_seq.nextval+#{i},#{item.num},#{item.fname},#{item.oname})
+  	</foreach>
+  	select * from dual
   </insert>
   <!--업뎃  -->
   <update id="setUpdate" parameterType="com.jh.file.FileDTO">

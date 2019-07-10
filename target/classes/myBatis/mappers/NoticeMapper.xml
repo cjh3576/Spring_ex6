@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="NoticeMapper">
-  	<select id="totalCount" resultType="java.lang.Integer" parameterType="com.jh.util.PageMaker">
+  	<select id="totalCount" resultType="Integer" parameterType="com.jh.util.PageMaker">
   		<!--kind : 1(title) 2(writer) 3(contents)  -->
   		select count(num) from notice where
   		<choose>
@@ -30,21 +30,42 @@
   		</if> -->
   		
   	</select>
-  	<select id="getNum" resultType="java.lang.Integer">
-  		select notice_seq.nextval from dual
-  	</select>
   	<insert id="noticeWrite" parameterType = "com.jh.board.BoardDTO">
+  		<selectKey keyProperty="num" resultType="java.lang.Integer" order="BEFORE">
+  			select notice_seq.nextval from dual
+  		</selectKey>
   		insert into notice values(#{num},#{title},#{writer},#{contents},sysdate,0)
   	</insert>
   	<update id="noticeUpdate" parameterType="com.jh.board.BoardDTO">
   		update notice set title=#{title}, contents=#{contents} where num=#{num}
   	</update>
   	
-  	<select id="noticeSelect" resultType="com.jh.board.notice.NoticeDTO"  parameterType="java.lang.Integer">
-  		select * from notice where num=#{num}
+  	<resultMap type="NoticeDTO" id="notice">
+  		<id property="num" column="num"/>
+  		<result property="writer" column="writer"/>
+  		<result property="title" column="title"/>
+  		<result property="contents" column="contents"/>
+  		<result property="reg_date" column="reg_date"/>
+  		<result property="hit" column="hit"/>
+  		<collection property="files" resultMap="fileResult" ofType="com.jh.file.FileDTO" javaType="java.util.ArrayList" >
+		
+		</collection>
+  	</resultMap>
+  	
+  	<resultMap type="com.jh.file.FileDTO" id="fileResult">
+		<id property="fnum" column="fnum"/>
+		<result property="fname" column="fname"/>
+		<result property="oname" column="oname"/>
+	</resultMap>
+  	
+  	<select id="noticeSelect" resultMap="notice"  parameterType="Integer">
+		select N.*, F.*
+		from notice N full join files F
+		on(N.num = F.num)
+		where N.num=#{num}
   	</select>
   	
-  	<select id ="noticeList" resultType = "com.jh.board.notice.NoticeDTO" parameterType="com.jh.util.PageMaker">
+  	<select id ="noticeList" resultType = "NoticeDTO" parameterType="com.jh.util.PageMaker">
   		select * from
 		(select rownum R, N.* from
 		(select * from notice
@@ -67,7 +88,7 @@
 		where R between #{startRow} and #{lastRow}
   	</select>
   	
-  	<delete id="noticeDelete" parameterType= "java.lang.Integer">
+  	<delete id="noticeDelete" parameterType= "Integer">
   		delete notice where num=#{num}
   	</delete>
   

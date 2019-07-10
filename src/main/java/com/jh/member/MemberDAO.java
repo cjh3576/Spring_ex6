@@ -15,7 +15,7 @@ public class MemberDAO {
 		return sqlSession.insert(NAMESPACE+"setWrite",memberDTO);
 	}
 	
-	public MemberDTO getSelect(String id) throws Exception{
-		return sqlSession.selectOne(NAMESPACE+"getSelect",id);
+	public MemberDTO getSelect(MemberDTO memberDTO) throws Exception{
+		return sqlSession.selectOne(NAMESPACE+"getSelect",memberDTO);
 	}
 }

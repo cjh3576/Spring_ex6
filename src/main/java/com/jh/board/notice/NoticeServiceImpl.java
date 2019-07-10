@@ -32,22 +32,20 @@ public class NoticeServiceImpl implements BoardService {
 	private FileSaver fileSaver;
 	@Override
 	public int setWrite(BoardDTO boardDTO, List<MultipartFile> multipartFiles, HttpSession session) throws Exception {
-		int num = noticeDAO.getNum();
-		boardDTO.setNum(num);
+		int result = noticeDAO.setWrite(boardDTO);
+		
 		ArrayList<FileDTO> files = new ArrayList<FileDTO>();
 		String realPath = session.getServletContext().getRealPath("/resources/upload");
 		System.out.println(realPath);
 		for(MultipartFile multipartFile: multipartFiles) {
 			String fname = fileSaver.saveFile(realPath, multipartFile);
 			FileDTO fileDTO = new FileDTO();
-			fileDTO.setNum(num);
+			fileDTO.setNum(boardDTO.getNum());
 			fileDTO.setFname(fname);
 			fileDTO.setOname(multipartFile.getOriginalFilename());
 			files.add(fileDTO);
 		}
-		for(FileDTO fileDTO : files) {
-			fileDAO.setWrite(fileDTO);
-		}
+		fileDAO.setWrite(files);
 		//파일을 hdd에 저장
 		//notice 테이블에 저장
 		//num 받아옴
@@ -55,7 +53,7 @@ public class NoticeServiceImpl implements BoardService {
 		//files 테이블에 저장
 		
 		
-		return noticeDAO.setWrite(boardDTO);
+		return result;
 	}
 
 	@Override

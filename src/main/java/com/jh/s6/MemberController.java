@@ -1,6 +1,7 @@
 package com.jh.s6;
 
 import java.io.File;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jh.member.MemberDTO;
 import com.jh.member.MemberService;
+import com.jh.memberFile.MemberFileDTO;
 import com.jh.util.FileSaver;
 
 @Controller
@@ -20,6 +22,12 @@ import com.jh.util.FileSaver;
 public class MemberController {
 	@Inject
 	private MemberService memberService;
+	
+	//memberPage
+	@RequestMapping(value="memberPage")
+	public String memberPage() throws Exception{
+		return "member/memberPage";
+	}
 	
 	//join form
 	@RequestMapping(value="memberJoin", method = RequestMethod.GET)
@@ -48,9 +56,10 @@ public class MemberController {
 	
 	//login 
 	@RequestMapping(value="memberLogin", method=RequestMethod.POST)
-	public String getLogin(String id,HttpSession session,Model model) throws Exception{
-		MemberDTO memberDTO= memberService.getSelect(id);
+	public String getLogin(MemberDTO memberDTO,HttpSession session,Model model) throws Exception{
+		memberDTO =  memberService.getSelect(memberDTO);
 		String view = "common/messageMove";
+		
 		if(memberDTO != null) {
 			session.setAttribute("dto", memberDTO);
 			model.addAttribute("message", "Login Success");

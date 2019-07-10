@@ -47,19 +47,7 @@ public class NoticeController {
 	//write insert
 	@RequestMapping(value = "noticeWrite", method = RequestMethod.POST)
 	public String noticeWrite(NoticeDTO noticeDTO,Model model, List<MultipartFile> f1, HttpSession session) throws Exception{
-		String path = session.getServletContext().getRealPath("/resources/upload");
 		
-		File file = new File(path);
-		if(!file.exists()) {
-			file.mkdirs();
-		}
-		FileSaver fs = new FileSaver();
-		String fname = fs.saveFile2(path, f1.get(0));
-		
-		//System.out.println(fname);
-		for(MultipartFile f : f1) {
-			String name = f.getOriginalFilename();
-		}
 		
 		int result = noticeService.setWrite(noticeDTO, f1, session);
 		String view = "common/messageMove";

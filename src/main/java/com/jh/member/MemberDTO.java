@@ -1,11 +1,21 @@
 package com.jh.member;
 
+import com.jh.memberFile.MemberFileDTO;
+
 public class MemberDTO {
 	private String id;
 	private String pw;
 	private String name; 
 	private String email;
 	private int grade;
+	private MemberFileDTO memberFileDTO;
+	
+	public MemberFileDTO getMemberFileDTO() {
+		return memberFileDTO;
+	}
+	public void setMemberFileDTO(MemberFileDTO memberFileDTO) {
+		this.memberFileDTO = memberFileDTO;
+	}
 	public String getId() {
 		return id;
 	}

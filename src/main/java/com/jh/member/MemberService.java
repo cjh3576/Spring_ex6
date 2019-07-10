@@ -1,5 +1,8 @@
 package com.jh.member;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -34,8 +37,9 @@ public class MemberService {
 		return memberDAO.setWrite(memberDTO);
 	}
 	
-	public MemberDTO getSelect(String id) throws Exception{
-		return memberDAO.getSelect(id);
+	public MemberDTO getSelect(MemberDTO memberDTO) throws Exception{
+		memberDTO = memberDAO.getSelect(memberDTO);
+		return memberDTO;
 	}
 	
 	public void logout(HttpSession session) throws Exception{
